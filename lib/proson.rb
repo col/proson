@@ -26,12 +26,27 @@ class Proson
 
   private
 
-  @@json_attributes = []
+  @@attributes = []
 
-  def self.json_attr(*args)
-    args.each do |arg|
-      @@json_attributes << arg
-      send(:attr_accessor, arg.to_sym)
+  def self.attr_accessor(symbol, *smth)
+    super
+    add_attributes(symbol, smth)
+  end
+
+  def self.attr_reader(symbol, *smth)
+    super
+    add_attributes(symbol, smth)
+  end
+
+  def self.attr_writer(symbol, *smth)
+    super
+    add_attributes(symbol, smth)
+  end
+
+  def self.add_attributes(symbol, *smth)
+    @@attributes << symbol
+    smth.each do |arg|
+      @@attributes << arg
     end
   end
 
@@ -46,7 +61,7 @@ class Proson
   end
 
   def parse_hash(hash)
-    @@json_attributes.each do |attr|
+    @@attributes.each do |attr|
       value = hash[attr] || hash[attr.to_s]
       self.send("#{attr}=", value) if value
     end

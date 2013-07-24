@@ -2,31 +2,11 @@ require 'rspec'
 require_relative '../lib/proson'
 
 class Example < Proson
-  json_attr :key1
-  json_attr :key2, :key3
+  attr_accessor :key1
+  attr_accessor :key2, :key3
 end
 
 describe Proson do
-
-  describe "#json_attr" do
-
-    it "should define a getter for each json attr" do
-      example = Example.new()
-      example.should respond_to(:key1)
-    end
-
-    it "should define a setter for each json attr" do
-      example = Example.new()
-      example.should respond_to(:key1=)
-    end
-
-    it "should accept multiple arguments" do
-      example = Example.new()
-      example.should respond_to(:key3)
-      example.should respond_to(:key3=)
-    end
-
-  end
 
   describe "hash initialization" do
 
